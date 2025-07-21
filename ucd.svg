@@ -1,38 +1,51 @@
-<svg width="900" height="700" xmlns="http://www.w3.org/2000/svg">
-  <rect width="900" height="700" fill="white" stroke="black" stroke-width="2"/>
-  <text x="450" y="30" text-anchor="middle" font-size="20" font-weight="bold">Äänestyssovelluksen käyttötapauskaavio</text>
-  <ellipse cx="100" cy="150" rx="70" ry="40" fill="none" stroke="black" stroke-width="2"/>
-  <line x1="100" y1="130" x2="100" y2="110" stroke="black" stroke-width="2"/>
-  <circle cx="100" cy="105" r="8" fill="none" stroke="black" stroke-width="2"/>
-  <line x1="85" y1="145" x2="115" y2="155" stroke="black" stroke-width="2"/>
-  <line x1="115" y1="145" x2="85" y2="155" stroke="black" stroke-width="2"/>
-  <line x1="100" y1="170" x2="85" y2="200" stroke="black" stroke-width="2"/>
-  <line x1="100" y1="170" x2="115" y2="200" stroke="black" stroke-width="2"/>
-  <text x="100" y="220" text-anchor="middle" font-size="14" font-weight="bold">Käyttäjä</text>
-  <ellipse cx="100" cy="400" rx="70" ry="40" fill="none" stroke="black" stroke-width="2"/>
-  <line x1="100" y1="380" x2="100" y2="360" stroke="black" stroke-width="2"/>
-  <circle cx="100" cy="355" r="8" fill="none" stroke="black" stroke-width="2"/>
-  <line x1="85" y1="395" x2="115" y2="405" stroke="black" stroke-width="2"/>
-  <line x1="115" y1="395" x2="85" y2="405" stroke="black" stroke-width="2"/>
-  <line x1="100" y1="420" x2="85" y2="450" stroke="black" stroke-width="2"/>
-  <line x1="100" y1="420" x2="115" y2="450" stroke="black" stroke-width="2"/>
-  <text x="100" y="470" text-anchor="middle" font-size="14" font-weight="bold">Ylläpitäjä</text>
-  <rect x="250" y="80" width="550" height="500" fill="none" stroke="black" stroke-width="3"/>
-  <text x="525" y="105" text-anchor="middle" font-size="16" font-weight="bold">Äänestyssovellus</text>
-  <ellipse cx="400" cy="150" rx="100" ry="30" fill="none" stroke="black" stroke-width="2"/>
-  <text x="400" y="155" text-anchor="middle" font-size="12">Selaa äänestyksiä</text>
-  <ellipse cx="400" cy="220" rx="110" ry="30" fill="none" stroke="black" stroke-width="2"/>
-  <text x="400" y="225" text-anchor="middle" font-size="12">Katso äänestystilanne</text>
-  <ellipse cx="400" cy="290" rx="80" ry="30" fill="none" stroke="black" stroke-width="2"/>
-  <text x="400" y="295" text-anchor="middle" font-size="12">Äänestä</text>
-  <ellipse cx="650" cy="350" rx="100" ry="30" fill="none" stroke="black" stroke-width="2"/>
-  <text x="650" y="355" text-anchor="middle" font-size="12">Luo uusi äänestys</text>
-  <ellipse cx="650" cy="450" rx="90" ry="30" fill="none" stroke="black" stroke-width="2"/>
-  <text x="650" y="455" text-anchor="middle" font-size="12">Poista äänestys</text>
-  <line x1="170" y1="150" x2="300" y2="150" stroke="black" stroke-width="2"/>
-  <line x1="170" y1="160" x2="290" y2="220" stroke="black" stroke-width="2"/>
-  <line x1="170" y1="170" x2="320" y2="290" stroke="black" stroke-width="2"/>
-  <line x1="170" y1="380" x2="550" y2="350" stroke="black" stroke-width="2"/>
-  <line x1="170" y1="420" x2="560" y2="450" stroke="black" stroke-width="2"/>
-  <polygon points="90,340 110,340 100,360" fill="white" stroke="black" stroke-width="2"/>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="white" stroke="black" stroke-width="2"/>
+  
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold">Äänestyssovelluksen käyttötapauskaavio</text>
+  
+  <g id="kayttaja">
+    <circle cx="80" cy="120" r="15" fill="none" stroke="black" stroke-width="2"/>
+    <line x1="80" y1="135" x2="80" y2="180" stroke="black" stroke-width="2"/>
+    <line x1="60" y1="155" x2="100" y2="155" stroke="black" stroke-width="2"/>
+    <line x1="80" y1="180" x2="60" y2="210" stroke="black" stroke-width="2"/>
+    <line x1="80" y1="180" x2="100" y2="210" stroke="black" stroke-width="2"/>
+    <text x="80" y="235" text-anchor="middle" font-size="12">Käyttäjä</text>
+  </g>
+  
+  <g id="yllapitaja">
+    <circle cx="80" cy="350" r="15" fill="none" stroke="black" stroke-width="2"/>
+    <line x1="80" y1="365" x2="80" y2="410" stroke="black" stroke-width="2"/>
+    <line x1="60" y1="385" x2="100" y2="385" stroke="black" stroke-width="2"/>
+    <line x1="80" y1="410" x2="60" y2="440" stroke="black" stroke-width="2"/>
+    <line x1="80" y1="410" x2="100" y2="440" stroke="black" stroke-width="2"/>
+    <text x="80" y="465" text-anchor="middle" font-size="12">Ylläpitäjä</text>
+  </g>
+  
+  <polygon points="70,280 90,280 80,300" fill="white" stroke="black" stroke-width="2"/>
+  <line x1="80" y1="240" x2="80" y2="280" stroke="black" stroke-width="2"/>
+  
+  <rect x="200" y="80" width="500" height="400" fill="none" stroke="black" stroke-width="3"/>
+  <text x="450" y="105" text-anchor="middle" font-size="14" font-weight="bold">Äänestyssovellus</text>
+  
+  <ellipse cx="350" cy="150" rx="80" ry="25" fill="none" stroke="black" stroke-width="2"/>
+  <text x="350" y="155" text-anchor="middle" font-size="11">Selaa äänestyksiä</text>
+  
+  <ellipse cx="350" cy="200" rx="90" ry="25" fill="none" stroke="black" stroke-width="2"/>
+  <text x="350" y="205" text-anchor="middle" font-size="11">Katso äänestystilanne</text>
+  
+  <ellipse cx="350" cy="250" rx="60" ry="25" fill="none" stroke="black" stroke-width="2"/>
+  <text x="350" y="255" text-anchor="middle" font-size="11">Äänestä</text>
+  
+  <ellipse cx="550" cy="350" rx="80" ry="25" fill="none" stroke="black" stroke-width="2"/>
+  <text x="550" y="355" text-anchor="middle" font-size="11">Luo uusi äänestys</text>
+  
+  <ellipse cx="550" cy="400" rx="70" ry="25" fill="none" stroke="black" stroke-width="2"/>
+  <text x="550" y="405" text-anchor="middle" font-size="11">Poista äänestys</text>
+  
+  <line x1="100" y1="150" x2="270" y2="150" stroke="black" stroke-width="1"/>
+  <line x1="100" y1="170" x2="260" y2="200" stroke="black" stroke-width="1"/>
+  <line x1="100" y1="190" x2="290" y2="250" stroke="black" stroke-width="1"/>
+  
+  <line x1="100" y1="370" x2="470" y2="350" stroke="black" stroke-width="1"/>
+  <line x1="100" y1="390" x2="480" y2="400" stroke="black" stroke-width="1"/>
 </svg>
