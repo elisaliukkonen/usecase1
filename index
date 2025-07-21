@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Äänestyssovellus</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .poll-card { margin-bottom: 20px; }
+        .poll-result { margin: 10px 0; }
+        .progress { margin: 5px 0; }
+        .admin-controls { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .user-switch { position: fixed; top: 10px; right: 10px; }
+        .hidden { display: none; }
+        .vote-option { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="user-switch">
+            <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="userType" id="user" value="user" checked>
+                <label class="btn btn-outline-primary" for="user">Käyttäjä</label>
+                <input type="radio" class="btn-check" name="userType" id="admin" value="admin">
+                <label class="btn btn-outline-danger" for="admin">Ylläpitäjä</label>
+            </div>
+        </div>
+
+        <h1 class="text-center mb-4">Äänestyssovellus</h1>
+        
+        <div id="adminControls" class="admin-controls hidden">
+            <h3>Ylläpitäjän toiminnot</h3>
+            <button class="btn btn-success" onclick="showCreateForm()">Luo uusi äänestys</button>
+        </div>
+
+        <div id="createPollForm" class="card mb-4 hidden">
+            <div class="card-header">
+                <h4>Luo uusi äänestys</h4>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="pollTitle" class="form-label">Äänestyksen nimi</label>
+                    <input type="text" class="form-control" id="pollTitle" required>
+                </div>
+                <div class="mb-3">
+                    <label for="pollDescription" class="form-label">Kuvaus</label>
+                    <textarea class="form-control" id="pollDescription" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Vaihtoehdot</label>
+                    <div id="optionsContainer">
+                        <input type="text" class="form-control mb-2" placeholder="Vaihtoehto 1" required>
+                        <input type="text" class="form-control mb-2" placeholder="Vaihtoehto 2" required>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addOption()">Lisää vaihtoehto</button>
+                </div>
+                <button class="btn btn-success" onclick="createPoll()">Luo äänestys</button>
+                <button class="btn btn-secondary" onclick="hideCreateForm()">Peruuta</button>
+            </div>
+        </div>
+
+        <div id="pollsList">
+            <h2>Äänestykset</h2>
+            <div id="pollsContainer"></div>
+        </div>
+
+        <div id="voteView" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h4 id="voteTitle"></h4>
+                </div>
+                <div class="card-body">
+                    <p id="voteDescription"></p>
+                    <div id="voteOptions"></div>
+                    <button class="btn btn-primary" onclick="submitVote()" id="submitVoteBtn">Lähetä ääni</button>
+                    <button class="btn btn-secondary" onclick="showPolls()">Takaisin</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsView" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h4 id="resultsTitle"></h4>
+                </div>
+                <div class="card-body">
+                    <div id="resultsContainer"></div>
+                    <button class="btn btn-secondary" onclick="showPolls()">Takaisin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let polls = [
+            {
+                id: 1,
+                title: "Paras ohjelmointikieli?",
+                description: "Mikä on mielestäsi paras ohjelmointikieli?",
+                options: ["JavaScript", "Python", "Java", "C++"],
+                votes: [15, 23, 8, 12],
+                voters: []
+            },
+            {
+                id: 2,
+                title: "Lempiruoka?",
+                description: "Mikä on suosikkiruokasi?",
+                options: ["Pizza", "Pasta", "Sushi", "Hampurilainen"],
+                votes: [20, 15, 18, 10],
+                voters: []
+            }
+        ];
+
+        let currentUser = "user";
+        let currentPollId = null;
+        let userId = Math.random().toString(36).substr(2, 9);
+
+        function showPolls() {
+            document.getElementById('pollsList').classList.remove('hidden');
+            document.getElementById('voteView').classList.add('hidden');
+            document.getElementById('resultsView').classList.add('hidden');
+            renderPolls();
+        }
+
+        function renderPolls() {
+            const container = document.getElementById('pollsContainer');
+            container.innerHTML = '';
+
+            if (polls.length === 0) {
+                container.innerHTML = '<p class="text-muted">Ei äänestyksiä saatavilla</p>';
+                return;
+            }
+
+            polls.forEach(poll => {
+                const hasVoted = poll.voters.includes(userId);
+                const pollCard = `
+                    <div class="card poll-card">
+                        <div class="card-body">
+                            <h5 class="card-title">${poll.title}</h5>
+                            <p class="card-text">${poll.description}</p>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-primary" onclick="vote(${poll.id})" ${hasVoted ? 'disabled' : ''}>
+                                    ${hasVoted ? 'Olet äänestänyt' : 'Äänestä'}
+                                </button>
+                                <button class="btn btn-outline-info" onclick="showResults(${poll.id})">Katso tuloksia</button>
+                                ${currentUser === 'admin' ? `<button class="btn btn-outline-danger" onclick="deletePoll(${poll.id})">Poista</button>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += pollCard;
+            });
+        }
+
+        function vote(pollId) {
+            const poll = polls.find(p => p.id === pollId);
+            if (!poll) return;
+
+            if (poll.voters.includes(userId)) {
+                alert('Olet jo äänestänyt tätä äänestystä!');
+                return;
+            }
+
+            currentPollId = pollId;
+            document.getElementById('voteTitle').textContent = poll.title;
+            document.getElementById('voteDescription').textContent = poll.description;
+            
+            const optionsContainer = document.getElementById('voteOptions');
+            optionsContainer.innerHTML = '';
+            
+            poll.options.forEach((option, index) => {
+                optionsContainer.innerHTML += `
+                    <div class="vote-option">
+                        <input type="radio" class="form-check-input" name="voteOption" value="${index}" id="option${index}">
+                        <label class="form-check-label ms-2" for="option${index}">${option}</label>
+                    </div>
+                `;
+            });
+
+            document.getElementById('pollsList').classList.add('hidden');
+            document.getElementById('voteView').classList.remove('hidden');
+        }
+
+        function submitVote() {
+            const selectedOption = document.querySelector('input[name="voteOption"]:checked');
+            if (!selectedOption) {
+                alert('Valitse vaihtoehto!');
+                return;
+            }
+
+            const poll = polls.find(p => p.id === currentPollId);
+            if (poll) {
+                poll.votes[parseInt(selectedOption.value)]++;
+                poll.voters.push(userId);
+                alert('Ääni tallennettu!');
+                showPolls();
+            }
+        }
+
+        function showResults(pollId) {
+            const poll = polls.find(p => p.id === pollId);
+            if (!poll) return;
+
+            document.getElementById('resultsTitle').textContent = poll.title;
+            
+            const totalVotes = poll.votes.reduce((sum, votes) => sum + votes, 0);
+            let resultsHTML = '';
+
+            if (totalVotes === 0) {
+                resultsHTML = '<p class="text-muted">Ei ääniä vielä annettu</p>';
+            } else {
+                poll.options.forEach((option, index) => {
+                    const votes = poll.votes[index];
+                    const percentage = Math.round((votes / totalVotes) * 100);
+                    resultsHTML += `
+                        <div class="poll-result">
+                            <div class="d-flex justify-content-between">
+                                <span>${option}</span>
+                                <span>${votes} ääntä (${percentage}%)</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('resultsContainer').innerHTML = resultsHTML;
+            document.getElementById('pollsList').classList.add('hidden');
+            document.getElementById('resultsView').classList.remove('hidden');
+        }
+
+        function showCreateForm() {
+            document.getElementById('createPollForm').classList.remove('hidden');
+        }
+
+        function hideCreateForm() {
+            document.getElementById('createPollForm').classList.add('hidden');
+            document.getElementById('pollTitle').value = '';
+            document.getElementById('pollDescription').value = '';
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = `
+                <input type="text" class="form-control mb-2" placeholder="Vaihtoehto 1" required>
+                <input type="text" class="form-control mb-2" placeholder="Vaihtoehto 2" required>
+            `;
+        }
+
+        function addOption() {
+            const container = document.getElementById('optionsContainer');
+            const optionCount = container.children.length + 1;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'form-control mb-2';
+            input.placeholder = `Vaihtoehto ${optionCount}`;
+            container.appendChild(input);
+        }
+
+        function createPoll() {
+            const title = document.getElementById('pollTitle').value.trim();
+            const description = document.getElementById('pollDescription').value.trim();
+            const optionInputs = document.querySelectorAll('#optionsContainer input');
+            
+            if (!title) {
+                alert('Anna äänestyksen nimi!');
+                return;
+            }
+
+            const options = Array.from(optionInputs)
+                .map(input => input.value.trim())
+                .filter(value => value !== '');
+
+            if (options.length < 2) {
+                alert('Lisää vähintään 2 vaihtoehtoa!');
+                return;
+            }
+
+            const newPoll = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                options: options,
+                votes: new Array(options.length).fill(0),
+                voters: []
+            };
+
+            polls.push(newPoll);
+            hideCreateForm();
+            renderPolls();
+            alert('Äänestys luotu!');
+        }
+
+        function deletePoll(pollId) {
+            if (confirm('Haluatko varmasti poistaa tämän äänestyksen?')) {
+                polls = polls.filter(poll => poll.id !== pollId);
+                renderPolls();
+                alert('Äänestys poistettu!');
+            }
+        }
+
+        document.querySelectorAll('input[name="userType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                currentUser = this.value;
+                const adminControls = document.getElementById('adminControls');
+                if (currentUser === 'admin') {
+                    adminControls.classList.remove('hidden');
+                } else {
+                    adminControls.classList.add('hidden');
+                    hideCreateForm();
+                }
+                renderPolls();
+            });
+        });
+
+        renderPolls();
+    </script>
+</body>
+</html>
