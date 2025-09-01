@@ -2,17 +2,17 @@
 
 ## 1. Selaa äänestyksiä
 
-**Käyttäjät:** Käyttäjä, Ylläpitäjä
+**Käyttäjät:** Käyttäjä, ylläpitäjä
 
 **Laukaisija:** Käyttäjä avaa sovelluksen etusivun
 
 **Esiehto:** Sovellus on käynnissä ja sisältää äänestyksiä
 
-**Jälkiehto:** Käyttäjä näkee listan kaikista äänestyksissä
+**Jälkiehto:** Käyttäjä näkee listan kaikista äänestyksistä
 
 **Käyttötapauksen kulku:**
 1. Käyttäjä avaa sovelluksen etusivun
-2. Järjestelmä näyttää listan kaikista äänestyksissä
+2. Järjestelmä näyttää listan kaikista äänestyksisä
 3. Jokainen äänestys näyttää nimen ja lyhyen kuvauksen
 4. Käyttäjä voi valita äänestyksen jatkaakseen
 
@@ -23,7 +23,7 @@
 
 ## 2. Katso äänestystilanne
 
-**Käyttäjät:** Käyttäjä, Ylläpitäjä
+**Käyttäjät:** Käyttäjä, ylläpitäjä
 
 **Laukaisija:** Käyttäjä valitsee äänestyksen ja klikkaa "Katso tuloksia"
 
@@ -44,7 +44,7 @@
 
 ## 3. Äänestä
 
-**Käyttäjät:** Käyttäjä, Ylläpitäjä
+**Käyttäjät:** Käyttäjä, ylläpitäjä
 
 **Laukaisija:** Käyttäjä valitsee äänestyksen ja klikkaa "Äänestä"
 
@@ -94,14 +94,14 @@
 
 **Käyttäjät:** Ylläpitäjä
 
-**Laukaisija:** Ylläpitäjä klikkaa "Poista" -painiketta äänestyksen kohdalla
+**Laukaisija:** Ylläpitäjä klikkaa "poista" -painiketta äänestyksen kohdalla
 
 **Esiehto:** Käyttäjä on kirjautunut ylläpitäjänä ja äänestys on olemassa
 
 **Jälkiehto:** Äänestys on poistettu järjestelmästä
 
 **Käyttötapauksen kulku:**
-1. Ylläpitäjä klikkaa "Poista" -painiketta äänestyksen kohdalla
+1. Ylläpitäjä klikkaa "poista" -painiketta äänestyksen kohdalla
 2. Järjestelmä pyytää vahvistuksen poistamiselle
 3. Ylläpitäjä vahvistaa poistamisen
 4. Järjestelmä poistaa äänestyksen ja päivittää listan
