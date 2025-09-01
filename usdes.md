@@ -1,4 +1,4 @@
-# Käyttötapauskuvaukset - Äänestyssovellus
+# Käyttötapauskuvaukset - Äänestyssovellus 
 
 ## 1. Selaa äänestyksiä
 
