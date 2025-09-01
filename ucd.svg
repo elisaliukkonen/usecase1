@@ -2,7 +2,7 @@
   <rect width="800" height="600" fill="white" stroke="black" stroke-width="2"/>
   
   <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold">Äänestyssovelluksen käyttötapauskaavio</text>
-  
+   
   <g id="kayttaja">
     <circle cx="80" cy="120" r="15" fill="none" stroke="black" stroke-width="2"/>
     <line x1="80" y1="135" x2="80" y2="180" stroke="black" stroke-width="2"/>
