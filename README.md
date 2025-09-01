@@ -13,5 +13,4 @@ UML käyttötapauskaavio selainkäyttöiselle äänestyssovellukselle.
 4. Luo uusi äänestys
 5. Poista äänestys
 
-## Tiedostot
-- `use-case-diagram.svg` - UML käyttötapauskaavio
+
